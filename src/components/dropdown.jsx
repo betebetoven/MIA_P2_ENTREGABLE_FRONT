@@ -7,7 +7,7 @@ function FileList() {
     const [selectedFile, setSelectedFile] = useState(null);
     const [preview, setPreview] = useState(null);
     const [showPreview, setShowPreview] = useState(true); // Added state variable to manage the visibility of the preview
-    
+     
     const fetchFiles = () => {
         axios.get(`${process.env.REACT_APP_API_BASE_URL}/list-files`)
             .then(response => {
