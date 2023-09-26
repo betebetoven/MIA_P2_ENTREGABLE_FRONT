@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import FileList from "./dropdown";
+import WebSocketLogs from "./connection";
+import AuthComponent from "./AuthComponent";
+import WebSocketStatus from "./status";
 
 function TextSender() {
   const [inputText, setInputText] = useState("");
@@ -28,11 +31,7 @@ function TextSender() {
       );
       setRespuesta(response.data.received_text);
       
-      const graphs = response.data.graphs || [];  // Assume that response.data.graphs contains the list of GraphViz codes
-      const urls = graphs.map(graph => 
-        `https://quickchart.io/graphviz?format=png&graph=${encodeURIComponent(graph)}`
-      );  // Generate URLs for QuickChart
-      setGraphUrls(urls);  // Update the state with the new URLs
+       // Update the state with the new URLs
       
     } catch (error) {
       setRespuesta("Error occurred: " + error.toString());
@@ -43,6 +42,7 @@ function TextSender() {
   
   return (
     <div className="text-sender">
+      
       <textarea
         value={inputText}
         onChange={(e) => setInputText(e.target.value)}
@@ -51,14 +51,10 @@ function TextSender() {
       <button className="content-button" onClick={handleSubmit} disabled={loading}>
         {loading ? "Sending..." : "Send Text"}
       </button>
-      <p>{respuesta}</p>
-      
-      {/* Rendering the graphs */}
-      {graphUrls.map((url, index) => (
-        <img key={index} src={url} alt={`Graph ${index + 1}`} />
-      ))}
-      <div className="content-section"></div>
+      <div className="content-section"><WebSocketLogs/> </div>
       <FileList />
+      <WebSocketStatus />
+      <AuthComponent />
     </div>
   );
 }

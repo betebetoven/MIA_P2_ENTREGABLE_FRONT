@@ -8,12 +8,16 @@ function FileList() {
     const [preview, setPreview] = useState(null);
     const [showPreview, setShowPreview] = useState(true); // Added state variable to manage the visibility of the preview
     
-    useEffect(() => {
+    const fetchFiles = () => {
         axios.get("http://localhost:8000/list-files")
             .then(response => {
                 setFiles(response.data);
             })
             .catch(error => console.error("Error fetching the files: ", error));
+    };
+
+    useEffect(() => {
+        fetchFiles();
     }, []);
     
     const handlePreviewClick = async () => {
@@ -38,6 +42,7 @@ function FileList() {
     return (
         <div>
             <h2>File List: Reportes</h2>
+            <button className="content-button" onClick={fetchFiles}>Refresh</button>
             <select className="content-button status-button open"
                 defaultValue="" 
                 onChange={(e) => setSelectedFile(e.target.value ? files.find(file => file.path === e.target.value) : null)}
