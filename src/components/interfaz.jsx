@@ -39,10 +39,25 @@ function TextSender() {
       setLoading(false);
     }
   };
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file && file.type === 'text/plain') {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setInputText(e.target.result);
+      };
+      reader.readAsText(file);
+    } else {
+      setInputText("");
+      alert("Please upload a valid text file");
+    }
+  };
   
   return (
     <div className="text-sender">
-      
+      <div className="content-section"><WebSocketLogs/> </div>
+       <input className="content-button" type="file" onChange={handleFileChange} accept=".txt" />
+       <div className="content-section"> </div>
       <textarea
         value={inputText}
         onChange={(e) => setInputText(e.target.value)}
@@ -51,7 +66,7 @@ function TextSender() {
       <button className="content-button" onClick={handleSubmit} disabled={loading}>
         {loading ? "Sending..." : "Send Text"}
       </button>
-      <div className="content-section"><WebSocketLogs/> </div>
+      
       <FileList />
       <WebSocketStatus />
       <AuthComponent />
