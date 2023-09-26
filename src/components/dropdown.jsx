@@ -9,7 +9,7 @@ function FileList() {
     const [showPreview, setShowPreview] = useState(true); // Added state variable to manage the visibility of the preview
     
     const fetchFiles = () => {
-        axios.get("http://localhost:8000/list-files")
+        axios.get(`${process.env.REACT_APP_API_BASE_URL}/list-files`)
             .then(response => {
                 setFiles(response.data);
             })
@@ -31,7 +31,7 @@ function FileList() {
         }
         
         try {
-            const response = await axios.get(`http://localhost:8000/get-image/${selectedFile.path}`, { responseType: 'blob' });
+            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/get-image/${selectedFile.path}`, { responseType: 'blob' });
             setPreview(URL.createObjectURL(response.data));
             setShowPreview(true); // Set to true to display the preview
         } catch (error) {

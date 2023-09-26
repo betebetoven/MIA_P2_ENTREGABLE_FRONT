@@ -4,7 +4,7 @@ function WebSocketLogs() {
     const [logs, setLogs] = useState([]);
     
     useEffect(() => {
-        const socket = new WebSocket("ws://localhost:8000/ws/logs");
+        const socket = new WebSocket(`${process.env.REACT_APP_API_BASE_URL_WS}/ws/logs`);
         socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
             if (data.type === 'log') {

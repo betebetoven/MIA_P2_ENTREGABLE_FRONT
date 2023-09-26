@@ -4,7 +4,7 @@ function WebSocketStatus() {
     const [status, setStatus] = useState("");
 
     useEffect(() => {
-        const socket = new WebSocket("ws://localhost:8000/ws/status");
+        const socket = new WebSocket(`${process.env.REACT_APP_API_BASE_URL_WS}/ws/status`);
         socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
             if (data.type === 'log') {
