@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import SVGHandler from "./SVGHandler";
-
+ 
 function FileList() {
     const [files, setFiles] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null);
