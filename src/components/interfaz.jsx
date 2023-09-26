@@ -57,6 +57,7 @@ function TextSender() {
       {graphUrls.map((url, index) => (
         <img key={index} src={url} alt={`Graph ${index + 1}`} />
       ))}
+      <div className="content-section"></div>
       <FileList />
     </div>
   );

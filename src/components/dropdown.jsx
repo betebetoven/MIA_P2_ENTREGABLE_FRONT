@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import SVGHandler from "./SVGHandler";
 
 function FileList() {
     const [files, setFiles] = useState([]);
@@ -49,7 +50,15 @@ function FileList() {
                 ))}
             </select>
             <button className="content-button" onClick={handlePreviewClick} disabled={!selectedFile}>{showPreview ? "Hide" : "Show"}</button>
-            {preview && showPreview && <img className="img-content" src={preview} alt="Preview" />}
+            <div className="content-section"></div>
+            {
+  preview && showPreview && (
+    selectedFile.is_svg
+    ? <div className={"content-wrapper-header" + (showPreview ? " shown" : "")}><SVGHandler src={preview} /></div>
+    : <div className={"content-wrapper-header" + (showPreview ? " shown" : "")}><img className="content-wrapper-img" src={preview} alt="Preview" /></div>
+  )
+}
+
         </div>
     );
 }

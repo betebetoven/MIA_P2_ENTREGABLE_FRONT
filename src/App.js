@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Interfaz from './components/interfaz'; // Import the Interfaz component
-import FileList from './components/dropdown';
+
 
 function App() {
   return (
