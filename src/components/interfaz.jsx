@@ -18,26 +18,46 @@ function TextSender() {
     setRespuesta("");
     setGraphUrls([]);  // Resetting the graphUrls state
     
-    try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}/api/query`,
-        { input: inputText, documents: [] },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-          },
+    const textLines = inputText.split('\n').filter(line => line.trim() !== "" && line !== "\n");
+    alert(textLines)
+
+
+    let combinedResponseText = "";
+    //alert(textLines)
+    for (const line of textLines) {
+      if (line.trim() === "pause") {
+        const userConfirmed = window.confirm("Please confirm to continue sending the text to the server");
+        if (!userConfirmed) {
+          // If user declines, break out of the loop and stop processing
+          break;
         }
-      );
-      setRespuesta(response.data.received_text);
+        // If user confirms, we don't send the "pause" to the server and just continue to the next line
+        continue;
+      }
+      if (line.trim().startsWith("#")) {
+        continue;
+      }
       
-       // Update the state with the new URLs
-      
-    } catch (error) {
-      setRespuesta("Error occurred: " + error.toString());
-    } finally {
-      setLoading(false);
+  
+      try {
+        const response = await axios.post(
+          `${process.env.REACT_APP_API_BASE_URL}/api/query`,
+          { input: line+"\n", documents: [] },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+            },
+          }
+        );
+        combinedResponseText += response.data.received_text + '\n';
+      } catch (error) {
+        combinedResponseText += "Error occurred for a line: " + error.toString() + '\n';
+      }
     }
+  
+    setRespuesta(combinedResponseText);
+    setLoading(false);
   };
   const handleFileChange = (event) => {
     const file = event.target.files[0];
