@@ -19,7 +19,7 @@ function TextSender() {
     setGraphUrls([]);  // Resetting the graphUrls state
     
     const textLines = inputText.split('\n').filter(line => line.trim() !== "" && line !== "\n");
-    alert(textLines)
+    //alert(textLines)
 
 
     let combinedResponseText = "";
